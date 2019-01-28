@@ -3,39 +3,45 @@
     <h1>Cryptocurrency Chart</h1>
     <p>[BTC] (JPY)</p>
     <div class="metrics-container">
-      <div class="metric-container">
-        <div class="metric-label">Metric Name</div>
-        <div class="metric-value">Metric Value</div>
-      </div>
-      <div class="metric-container">
-        <div class="metric-label">Metric Name</div>
-        <div class="metric-value">Metric Value</div>
-      </div>
-      <div class="metric-container">
-        <div class="metric-label">Metric Name</div>
-        <div class="metric-value">Metric Value</div>
-      </div>
-      <div class="metric-container">
-        <div class="metric-label">Metric Name</div>
-        <div class="metric-value">Metric Value</div>
-      </div>
-      <div class="metric-container">
-        <div class="metric-label">Metric Name</div>
-        <div class="metric-value">Metric Value</div>
-      </div>
-      <div class="metric-container">
-        <div class="metric-label">Metric Name</div>
-        <div class="metric-value">Metric Value</div>
-      </div>
+      <MetricItem
+        v-for="(metric, metricIndex) in metrics"
+        :key="metricIndex"
+        :metricName="metric.metricName"
+        :metricValue="metric.metricValue"
+      />
     </div>
-    <div>TODO: Chart</div>
+    <ChartItem />
     <h5>TECH PLAY ACADEMY</h5>
   </div>
 </template>
 
 <script>
+import MetricItem from './components/MetricItem.vue';
+import ChartItem from './components/ChartItem.vue';
+
 export default {
   name: 'App',
+  components: {
+    MetricItem,
+    ChartItem
+  },
+  data: function() {
+    return {
+      metrics: [],
+    };
+  },
+  methods: {
+    initMetricItem: function() {
+      const metric = {
+        metricName: 'Metric Name',
+        metricValue: 'Metric Value'
+      };
+      this.metrics = new Array(6).fill(metric);
+    }
+  },
+  created: function() {
+    this.initMetricItem();
+  }
 };
 </script>
 
