@@ -1,47 +1,27 @@
-const getHistoricalData = function() {
-  //Request
-  //GET
-  //url: https://min-api.cryptocompare.com/data/histominute?fsym=BTC&tsym=JPY&limit=1440
-  //header: [
-  //  x-api-key: API_KEY
-  //  Content-Type: application/x-www-form-urlencoded
-  //]
-  //Response
-  //{
-  //    "Response": "Success",
-  //    "Type": 100,
-  //    "Aggregated": false,
-  //    "Data": [
-  //        {
-  //            "time": 1548840840,
-  //            "close": 372994.27,
-  //            "high": 373098.37,
-  //            "low": 372991.43,
-  //            "open": 373042.35,
-  //            "volumefrom": 5.35,
-  //            "volumeto": 1996198.87
-  //        },
-  //        {
-  //            "time": 1548840900,
-  //            "close": 372973.86,
-  //            "high": 372994.27,
-  //            "low": 372973.86,
-  //            "open": 372994.27,
-  //            "volumefrom": 0,
-  //            "volumeto": 0
-  //        }
-  //    ],
-  //    "TimeTo": 1548840900,
-  //    "TimeFrom": 1548840840,
-  //    "FirstValueInArray": true,
-  //    "ConversionType": {
-  //        "type": "direct",
-  //        "conversionSymbol": ""
-  //    },
-  //    "RateLimit": {},
-  //    "HasWarning": false
-  //}
-  return Promise.resolve({});
+const fetch = require('node-fetch');
+const { HISTRICAL_API_KEY } = require('./constants.js');
+
+/**
+ * get BTC <> JPY historical data from https://min-api.cryptocompare.com
+ * @function
+ * @param {String} cryptocurrency
+ * @param {String} target
+ * @return {Object}
+ */
+const getHistoricalData = function(cryptocurrency, target) {
+  const url = 'https://min-api.cryptocompare.com/data/histominute?' +
+              `fsym=${cryptocurrency}&tsym=${target}&limit=1440`;
+  const options = {
+    method: 'GET',
+    mode: 'cors',
+    headers: {
+      'x-api-key': HISTRICAL_API_KEY,
+      'Content-Type': 'application/json; charset=utf-8'
+    }
+  };
+  return fetch(url, options)
+    .then(res => res.json())
+    .then(data => data.Data);
 };
 
 const getMarketInformation = function() {

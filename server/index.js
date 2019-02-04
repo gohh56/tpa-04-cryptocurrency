@@ -1,6 +1,7 @@
 const express = require('express');
 
 const apiService = require('./api-service');
+const { setHistoricalData } = require('./controller');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -11,7 +12,7 @@ app.get('/api/historical-data', (req, res) => {
     target,
   } = req.query;
   apiService.getHistoricalData(cryptocurrency, target)
-    .then(data => res.json(data))
+    .then(data => res.json(setHistoricalData(data)))
     .catch(err => {
       console.log('historical data error = ', err);
       res.status(400).json({ err: 'Error retrieving historical data' });
