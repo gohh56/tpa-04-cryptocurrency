@@ -5,6 +5,7 @@
 export default {
   name: 'ChartItem',
 };
+// Chart data = 1分ごとのレート値
 </script>
 <style>
 

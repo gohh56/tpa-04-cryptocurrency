@@ -40,6 +40,10 @@ export default {
     }
   },
   created: function() {
+    // 1 BTC <> JPY = 現在のレート=最新dataのclose
+    // 24 Hour Change = 始値、終値
+    // 24 Hour High = 高値
+    // 24 Hour Low = 安値
     this.initMetricItem();
   }
 };
