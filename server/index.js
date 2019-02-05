@@ -1,7 +1,7 @@
 const express = require('express');
 
 const apiService = require('./api-service');
-const { setHistoricalData } = require('./controller');
+const { setHistoricalData, setMarketInfomation } = require('./controller');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -25,7 +25,7 @@ app.get('/api/market-information', (req, res) => {
     target,
   } = req.query;
   apiService.getMarketInformation(cryptocurrency, target)
-    .then(data => res.json(data))
+    .then(data => res.json(setMarketInfomation(data)))
     .catch((err) => {
       console.log('market info error = ', err);
       res.status(400).json({ err: 'Error retrieving market information' });

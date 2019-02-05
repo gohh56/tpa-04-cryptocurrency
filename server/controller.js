@@ -3,7 +3,7 @@ const numeral = require('numeral');
 
 /** set historical data for client from API response
  * @function
- * @param {Array} historicalData - array from 'https://min-api.cryptocompare.com/' API
+ * @param {Object} historicalData - array from 'https://min-api.cryptocompare.com' API
  * @return {Object} - historical data for client
  */
 const setHistoricalData = function(historicalData) {
@@ -33,6 +33,25 @@ const setHistoricalData = function(historicalData) {
   return historicalResData;
 };
 
+/** set market infomation data for client from API response
+ * @function
+ * @param {Object} marketInfomation - array from 'https://pro-api.coinmarketcap.com' API
+ * @return {Object} - market infomation data for client
+ */
+
+const setMarketInfomation = function(marketInfomation) {
+  const marketResInfomation = {
+    'volumeInOneDay': null,
+    'marketCap': null
+  };
+  marketResInfomation.volumeInOneDay = 
+    numeral(marketInfomation.volume_24h).divide(1000000000).format('(000.00)') + ' B';
+  marketResInfomation.marketCap = 
+    numeral(marketInfomation.market_cap).divide(1000000000000).format('0.00') + ' T';
+  return marketResInfomation;
+};
+
 module.exports = {
-  setHistoricalData
+  setHistoricalData,
+  setMarketInfomation
 };
