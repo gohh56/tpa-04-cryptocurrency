@@ -27,23 +27,34 @@ export default {
   },
   data: function() {
     return {
-      metrics: [],
+      metrics: [
+        {
+          metricName: '1 BTC <> JPY',
+          metricValue: null,
+        },
+        {
+          metricName: '24 Hour Change',
+          metricValue: null,
+        }
+      ],
     };
   },
   methods: {
     initMetricItem: function() {
-      const metric = {
-        metricName: 'Metric Name',
-        metricValue: 'Metric Value'
-      };
-      this.metrics = new Array(6).fill(metric);
+//      const metric = {
+//        metricName: 'Metric Name',
+//        metricValue: 'Metric Value'
+//      };
+//      this.metrics = new Array(6).fill(metric);
+      //const res = this.getHistoricalData();
+      //console.log(res);
+    },
+    getHistoricalData: async function() {
+      const res = await fetch('/api/historical-data');
+      return res;
     }
   },
-  created: function() {
-    // 1 BTC <> JPY = 現在のレート=最新dataのclose
-    // 24 Hour Change = 始値、終値
-    // 24 Hour High = 高値
-    // 24 Hour Low = 安値
+  mounted: function() {
     this.initMetricItem();
   }
 };
