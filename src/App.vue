@@ -41,18 +41,16 @@ export default {
   },
   methods: {
     initMetricItem: function() {
-//      const metric = {
-//        metricName: 'Metric Name',
-//        metricValue: 'Metric Value'
-//      };
-//      this.metrics = new Array(6).fill(metric);
-      //const res = this.getHistoricalData();
-      //console.log(res);
+      const metric = {
+        metricName: 'Metric Name',
+        metricValue: 'Metric Value'
+      };
+      this.metrics = new Array(6).fill(metric);
     },
-    getHistoricalData: async function() {
-      const res = await fetch('/api/historical-data');
-      return res;
-    }
+//    getHistoricalData: async function() {
+//      const res = await fetch('/api/historical-data');
+//      return res;
+//    }
   },
   mounted: function() {
     this.initMetricItem();
