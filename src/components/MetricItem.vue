@@ -14,7 +14,6 @@ export default {
     },
     metricValue: {
       type: String,
-      required: true
     }
   }
 };
