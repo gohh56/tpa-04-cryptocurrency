@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <h1>Cryptocurrency Chart</h1>
-    <p>[BTC] (JPY)</p>
+    <p>[{{ cryptocurrency }}] ({{ target }})</p>
     <div class="metrics-container">
       <MetricItem
         v-for="(metric, metricIndex) in metrics"
@@ -27,23 +27,44 @@ export default {
   },
   data: function() {
     return {
+      cryptocurrency: 'BTC',
+      target: 'JPY',
       metrics: [],
+      historicalData: null
     };
   },
   methods: {
-    initMetricItem: function() {
+    getHistoricalData: async function() {
+      const url = `api/historical-data/?cryptocurrency=${this.cryptocurrency}&target=${this.target}`;
+      const promise = await fetch(url);
+      const historicalData = await promise.json();
+      return historicalData;
+    },
+    getMarketInformation: async function() {
+      const url = `/api/market-information/?cryptocurrency=${this.cryptocurrency}&target=${this.target}`;
+      const promise = await fetch(url);
+      const marketInfomation = await promise.json();
+      return marketInfomation;
+    },
+    addMetrics: function(name, value) {
       const metric = {
-        metricName: 'Metric Name',
-        metricValue: 'Metric Value'
+        'metricName': name,
+        'metricValue': value
       };
-      this.metrics = new Array(6).fill(metric);
+      this.metrics.push(metric);
+    },
+    initMetricItem: async function() {
+      const historicalData = await this.getHistoricalData();
+      this.addMetrics(`1 ${this.cryptocurrency} <> ${this.target}`, historicalData.latestValue);
+      this.addMetrics('24 Hour Change', historicalData.changeInOneDay);
+      this.addMetrics('24 Hour High', historicalData.highInOneDay);
+      this.addMetrics('24 Hour Low', historicalData.lowInOneDay);
+      const marketInfomation = await this.getMarketInformation();
+      this.addMetrics('24 Hour Volume', marketInfomation.volumeInOneDay);
+      this.addMetrics('Market Cap', marketInfomation.marketCap);
     }
   },
-  created: function() {
-    // 1 BTC <> JPY = 現在のレート=最新dataのclose
-    // 24 Hour Change = 始値、終値
-    // 24 Hour High = 高値
-    // 24 Hour Low = 安値
+  mounted: function() {
     this.initMetricItem();
   }
 };

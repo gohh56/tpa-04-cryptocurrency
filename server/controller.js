@@ -8,11 +8,11 @@ const numeral = require('numeral');
  */
 const setHistoricalData = function(historicalData) {
   const historicalResData = {
-    'latestValue': null,
-    'changeInOneDay': null,
-    'highInOneDay': null,
-    'lowInOneDay': null,
-    'chartData': []
+    latestValue: null,
+    changeInOneDay: null,
+    highInOneDay: null,
+    lowInOneDay: null,
+    chartData: []
   };
   historicalResData.latestValue = numeral(historicalData[historicalData.length - 1].close).format('0,0.00');
   let changeValue = historicalData[historicalData.length - 1].close - historicalData[0].close;
