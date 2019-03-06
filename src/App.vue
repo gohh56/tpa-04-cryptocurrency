@@ -10,7 +10,7 @@
         :metricValue="metric.metricValue"
       />
     </div>
-    <ChartItem />
+    <ChartItem :chartdata="chartData" />
     <h5>TECH PLAY ACADEMY</h5>
   </div>
 </template>
@@ -30,8 +30,8 @@ export default {
       cryptocurrency: 'BTC',
       target: 'JPY',
       metrics: [],
-      historicalData: null
-    };
+      chartData: {}
+};
   },
   methods: {
     getHistoricalData: async function() {
@@ -59,6 +59,7 @@ export default {
       this.addMetrics('24 Hour Change', historicalData.changeInOneDay);
       this.addMetrics('24 Hour High', historicalData.highInOneDay);
       this.addMetrics('24 Hour Low', historicalData.lowInOneDay);
+      this.chartData = historicalData.chartData;
       const marketInfomation = await this.getMarketInformation();
       this.addMetrics('24 Hour Volume', marketInfomation.volumeInOneDay);
       this.addMetrics('Market Cap', marketInfomation.marketCap);
