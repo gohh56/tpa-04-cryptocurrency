@@ -10,7 +10,14 @@
         :metricValue="metric.metricValue"
       />
     </div>
-    <ChartItem :chartdata="chartData" />
+    <div class="chart-container">
+      <ChartItem
+        v-if="loaded"
+        :chart-data-label="chartDataLabel"
+        :chart-data-value="chartDataValue"
+        :chart-labels="cryptocurrency"
+      />
+    </div>
     <h5>TECH PLAY ACADEMY</h5>
   </div>
 </template>
@@ -30,8 +37,10 @@ export default {
       cryptocurrency: 'BTC',
       target: 'JPY',
       metrics: [],
-      chartData: {}
-};
+      chartDataLabel: [],
+      chartDataValue: [],
+      loaded: false
+    };
   },
   methods: {
     getHistoricalData: async function() {
@@ -54,12 +63,17 @@ export default {
       this.metrics.push(metric);
     },
     initMetricItem: async function() {
+      this.loaded = false;
       const historicalData = await this.getHistoricalData();
       this.addMetrics(`1 ${this.cryptocurrency} <> ${this.target}`, historicalData.latestValue);
       this.addMetrics('24 Hour Change', historicalData.changeInOneDay);
       this.addMetrics('24 Hour High', historicalData.highInOneDay);
       this.addMetrics('24 Hour Low', historicalData.lowInOneDay);
-      this.chartData = historicalData.chartData;
+      historicalData.chartData.forEach(element => {
+        this.chartDataLabel.push(element.time);
+        this.chartDataValue.push(parseFloat(element.close));
+      });
+      this.loaded = true;
       const marketInfomation = await this.getMarketInformation();
       this.addMetrics('24 Hour Volume', marketInfomation.volumeInOneDay);
       this.addMetrics('Market Cap', marketInfomation.marketCap);
@@ -92,5 +106,11 @@ export default {
   height: 50px;
   padding: 10px;
   margin: 10px;
+}
+
+.chart-container {
+  width: 100vw;
+  height: 100vh;
+  margin: auto;
 }
 </style>
