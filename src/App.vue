@@ -109,8 +109,9 @@ export default {
 }
 
 .chart-container {
-  width: 100vw;
+  width: 80vw;
   height: 100vh;
-  margin: auto;
+  margin-left: auto;
+  margin-right: auto;
 }
 </style>
