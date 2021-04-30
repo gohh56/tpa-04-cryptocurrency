@@ -25,7 +25,7 @@ const setHistoricalData = function(historicalData) {
     if (data.low < lowValue) lowValue = data.low;
     historicalResData.chartData.push({
       'time': moment(data.time,'X').tz('Asia/Tokyo').format(),
-      'close': numeral(data.close).format('0,0.00'),
+      'close': numeral(data.close).format('0.00'),
     });
   });
   historicalResData.highInOneDay = numeral(highValue).format('0,0.00');
